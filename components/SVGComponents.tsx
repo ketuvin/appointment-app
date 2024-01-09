@@ -34,3 +34,7 @@ export const SettingsIcon: React.FC = () => (
   <ReactSVG src="/icons/settings.svg" />
 );
 
+export const ExpandIcon: React.FC = () => (
+  <ReactSVG src="/icons/double_chevron.svg" />
+);
+
