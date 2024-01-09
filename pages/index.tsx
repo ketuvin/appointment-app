@@ -1,13 +1,13 @@
-import Link from 'next/link'
-import Layout from '../components/Layout'
+import React from 'react';
+import AppointmentForm from '../components/AppointmentForm';
 
-const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">About</Link>
-    </p>
-  </Layout>
-)
+const HomePage: React.FC = () => {
+  return (
+    <div>
+      <h1 className="text-4xl font-semibold mb-6">Appointment Creation</h1>
+      <AppointmentForm />
+    </div>
+  );
+};
 
-export default IndexPage
+export default HomePage;
