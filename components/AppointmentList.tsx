@@ -1,20 +1,59 @@
 import React from 'react';
-import { useStore } from '../store';
+import { Appointment, useAppointmentStore } from '../store';
 
 const AppointmentList: React.FC = () => {
-  const store = useStore();
-  const appointments = store.appointments;
+  const appointments = useAppointmentStore((state) => state.appointments);
+  const cancelAppointment = useAppointmentStore((state) => state.cancelAppointment);
+  const rescheduleAppointment = useAppointmentStore((state) => state.rescheduleAppointment);
+
+  const handleCancel = (appointment: Appointment) => {
+    // Implement cancel appointment logic
+    cancelAppointment(appointment);
+  };
+
+  const handleReschedule = (appointment: Appointment, newDatetime: string) => {
+    // Implement reschedule appointment logic
+    rescheduleAppointment(appointment, newDatetime);
+  };
 
   return (
-    <div className="mt-4">
-      <h2 className="text-lg font-semibold mb-2">Appointment List</h2>
+    <div>
+      <h2 className="text-2xl font-semibold mb-4">Appointments</h2>
       <ul>
         {appointments.map((appointment, index) => (
-          <li key={index} className="border-b border-gray-300 py-2">
-            {/* Display appointment details, you can customize this based on your design */}
-            <p>Veterinary: {appointment.veterinary?.name}</p>
-            <p>Service: {appointment.service}</p>
-            {/* Display other appointment details */}
+          <li key={index} className="mb-4 p-4 border rounded-md">
+            {/* Display appointment details */}
+            <div>
+              <strong>Veterinary:</strong> {appointment.veterinary?.name || 'Not selected'}
+            </div>
+            <div>
+              <strong>Service:</strong> {appointment.service}
+            </div>
+            <div>
+              <strong>Pet Name:</strong> {appointment.pet.name}
+            </div>
+            <div>
+              <strong>Owner:</strong> {appointment.ownerName}
+            </div>
+            <div>
+              <strong>Date and Time:</strong> {appointment.dateTime}
+            </div>
+
+            {/* Implement cancel and reschedule buttons */}
+            <div className="flex space-x-2">
+              <button
+                onClick={() => handleCancel(appointment)}
+                className="bg-red-500 text-white px-2 py-1 rounded-md"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleReschedule(appointment, 'new_datetime_here')}
+                className="bg-yellow-500 text-white px-2 py-1 rounded-md"
+              >
+                Reschedule
+              </button>
+            </div>
           </li>
         ))}
       </ul>

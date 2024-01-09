@@ -29,10 +29,11 @@ interface AppState {
   setSelectedAppointment: (appointment: Appointment | null) => void;
   addAppointment: (appointment: Appointment) => void;
   updateAppointment: (appointment: Appointment) => void;
-  removeAppointment: (appointment: Appointment) => void;
+  cancelAppointment: (appointment: Appointment) => void;
+  rescheduleAppointment: (appointment: Appointment, newDatetime: string) => void;
 }
 
-export const useStore = create<AppState>((set) => ({
+export const useAppointmentStore = create<AppState>((set) => ({
   appointments: [],
   selectedAppointment: null,
 
@@ -40,15 +41,24 @@ export const useStore = create<AppState>((set) => ({
 
   addAppointment: (appointment: Appointment) => set((state) => ({ appointments: [...state.appointments, appointment] })),
 
-  updateAppointment: (updatedAppointment: Appointment) =>
-    set((state) => ({
-      appointments: state.appointments.map((appointment) =>
-        appointment.dateTime === updatedAppointment.dateTime ? updatedAppointment : appointment
-      ),
-    })),
+  updateAppointment: (updatedAppointment: Appointment) => set((state) => ({
+    appointments: state.appointments.map((appointment) =>
+      appointment.dateTime === updatedAppointment.dateTime ? updatedAppointment : appointment
+    ),
+  })),
 
-  removeAppointment: (appointment: Appointment) =>
-    set((state) => ({
-      appointments: state.appointments.filter((a) => a.dateTime !== appointment.dateTime),
-    })),
+  cancelAppointment: (appointment: Appointment) => set((state) => ({
+    appointments: state.appointments.filter((a) => a.dateTime !== appointment.dateTime),
+  })),
+
+  rescheduleAppointment: (appointment: Appointment, newDatetime: string) => set((state) => {
+    const updatedAppointments = [...state.appointments];
+    const index = updatedAppointments.findIndex((a) => a.dateTime === appointment.dateTime);
+
+    if (index !== -1) {
+      updatedAppointments[index].dateTime = newDatetime;
+    }
+
+    return { appointments: updatedAppointments };
+  }),
 }));

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { useStore } from '../store';
+import { useAppointmentStore } from '../store';
 
 const CalendarView: React.FC = () => {
-  const store = useStore();
+  const store = useAppointmentStore();
   const appointments = store.appointments;
 
   const [selectedDate, setSelectedDate] = useState(new Date());

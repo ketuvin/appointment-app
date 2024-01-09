@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useStore } from '../store';
+import { useAppointmentStore } from '../store';
 
 const SearchBar: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const store = useStore();
+  const store = useAppointmentStore();
 
   const handleSearch = () => {
     // Implement search functionality based on your requirements
